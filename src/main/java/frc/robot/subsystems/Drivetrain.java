@@ -7,8 +7,8 @@ import java.util.stream.Stream;
 import org.littletonrobotics.junction.Logger;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
@@ -240,11 +240,11 @@ public class Drivetrain extends SubsystemBase {
 		double ty1 = LimelightHelpers.getTX("limelight-bottom");
 		double tx2 = LimelightHelpers.getTX("limelight-rightb");
 		double ty2 = LimelightHelpers.getTX("limelight-rightb");
-		
+
 		if (tx1 == 0 && ty1 == 0 && tx2 == 0 && ty2 == 0) {
 			return false;
 		}
-		
+
 		return true;
 	}
 	// public boolean seesNote(){

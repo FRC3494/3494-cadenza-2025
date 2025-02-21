@@ -36,7 +36,6 @@ import frc.robot.commands.AutoPickupNote;
 import frc.robot.commands.TeleopAinterupptor;
 import frc.robot.commands.TeleopArm;
 import frc.robot.commands.TeleopBackInterrupter;
-import frc.robot.commands.TeleopBumperInterupptor;
 import frc.robot.commands.TeleopClimber;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.commands.TeleopDriveAutomated;
