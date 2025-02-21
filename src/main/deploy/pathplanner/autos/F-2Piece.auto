@@ -1,0 +1,110 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.3940937283583965,
+      "y": 7.297152372082522
+    },
+    "rotation": 90.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "To Amp Pos"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F-Preload"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Move Wrist"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stop Intake"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Delayed Intake Pos"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "F-PickupMidV2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Delayed Intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Confirm Note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stop Intake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "To Amp Pos"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "AmpFromMid"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
