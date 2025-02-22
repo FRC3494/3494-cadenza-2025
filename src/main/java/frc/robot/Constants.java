@@ -113,6 +113,8 @@ public final class Constants {
     public static final double MAX_VELOCITY_METERS_PER_SECOND = 5.36448;
     public static final double MAX_VOLTAGE = 12.0;
     public static final double MAX_STANDARD_DEVIATION_LIMELIGHT = 0.01;
+
+    public static final int PIGEON_PORT = 52;
   }
 
   public static final class OI {
