@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 import org.littletonrobotics.junction.Logger;
 
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.event.EventLoop;
@@ -17,7 +20,8 @@ import frc.robot.commands.TeleopRumble;
 
 public class Intake extends SubsystemBase {
     private boolean currentSensing = true;
-    private CANSparkMax intakeMotor;
+    private SparkMax intakeMotor;
+    private SparkMaxConfig intakeMotorConfig;
     private double manualPower = 0;
     private ArrayList<Double> currents = new ArrayList<Double>();
 
@@ -28,8 +32,10 @@ public class Intake extends SubsystemBase {
     public boolean inIntake = false;
 
     public Intake(EventLoop eventloop) {
-        intakeMotor = new CANSparkMax(Constants.Intake.mainMotor, MotorType.kBrushless);
-        intakeMotor.setIdleMode(IdleMode.kBrake);
+        intakeMotor = new SparkMax(Constants.Intake.mainMotor, MotorType.kBrushless);
+        intakeMotorConfig = new SparkMaxConfig();
+        intakeMotorConfig.idleMode(IdleMode.kBrake);
+        intakeMotor.configure(intakeMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public double currentAverage(double currentCurrent) {

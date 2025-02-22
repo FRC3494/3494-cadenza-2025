@@ -2,10 +2,14 @@ package frc.robot.subsystems.Climber;
 
 import org.littletonrobotics.junction.Logger;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkPIDController;
+import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -13,7 +17,8 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Elevator.ElevatorSensorState;
 
 public class Climber extends SubsystemBase {
-    public CANSparkMax mainMotor;
+    public SparkMax mainMotor;
+    private SparkMaxConfig mainMotorConfig;
     public double manualPower = 0;
 
     public RatchetServo ratchetServo = new RatchetServo(Constants.Climber.pwmServoPort);
@@ -22,13 +27,17 @@ public class Climber extends SubsystemBase {
     private DigitalInput bottomMagnetSensor;
 
     public Climber() {
-        mainMotor = new CANSparkMax(Constants.Climber.mainMotor, MotorType.kBrushless);
+        mainMotor = new SparkMax(Constants.Climber.mainMotor, MotorType.kBrushless);
+        mainMotorConfig = new SparkMaxConfig();
 
-        mainMotor.setIdleMode(IdleMode.kBrake);
+        mainMotorConfig.idleMode(IdleMode.kCoast);
 
-        mainMotor.getPIDController().setOutputRange(-1, 1);
-        mainMotor.getPIDController().setP(0.1);
+        mainMotorConfig.closedLoop.outputRange(-1, 1);
+        mainMotorConfig.closedLoop.p(0.1);
+
         bottomMagnetSensor = new DigitalInput(Constants.Climber.bottomMagnetSensorDIO);
+
+        mainMotor.configure(mainMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public double getCurrentPosition() {
@@ -70,12 +79,12 @@ public class Climber extends SubsystemBase {
     }
 
     public void setElevatorVoltage(double voltage) {
-        mainMotor.getPIDController().setReference(voltage, CANSparkMax.ControlType.kVoltage);
+        mainMotor.getClosedLoopController().setReference(voltage, SparkMax.ControlType.kVoltage);
     }
 
     public void setElevatorPosition(double position, double arbFFVoltage) {
-        mainMotor.getPIDController().setReference(position, CANSparkMax.ControlType.kPosition, 0, arbFFVoltage,
-                SparkPIDController.ArbFFUnits.kVoltage);
+        mainMotor.getClosedLoopController().setReference(position, SparkMax.ControlType.kPosition,
+                ClosedLoopSlot.kSlot0, arbFFVoltage, SparkClosedLoopController.ArbFFUnits.kVoltage);
     }
 
     public void resetPosition(double position) {

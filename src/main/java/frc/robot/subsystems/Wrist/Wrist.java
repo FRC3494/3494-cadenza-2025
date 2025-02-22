@@ -2,40 +2,47 @@ package frc.robot.subsystems.Wrist;
 
 import org.littletonrobotics.junction.Logger;
 
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Wrist extends SubsystemBase {
-    public CANSparkMax wristMotor;
+    public SparkMax wristMotor;
+    private SparkMaxConfig wristMotorConfig;
     private double manualPower = 0;
     private double targetPos = 0;
     private boolean targeting = false;
 
     // private DigitalInput bottomMagnetSensor;
     public Wrist() {
-        wristMotor = new CANSparkMax(Constants.Wrist.mainMotor, MotorType.kBrushless);
+        wristMotor = new SparkMax(Constants.Wrist.mainMotor, MotorType.kBrushless);
+        wristMotorConfig = new SparkMaxConfig();
 
-        wristMotor.getPIDController().setP(0.001);
-        // wristMotor.getPIDController().setD(0.0);
-        wristMotor.getPIDController().setFF(0.0);
-        wristMotor.getPIDController().setOutputRange(-0.1, 0.1);
-        wristMotor.getPIDController().setFeedbackDevice(wristMotor.getAlternateEncoder(8192));
+        wristMotorConfig.closedLoop.p(0.001);
+        wristMotorConfig.closedLoop.velocityFF(0.0);
+        wristMotorConfig.closedLoop.outputRange(-0.1, 0.1);
+        wristMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
 
-        wristMotor.setIdleMode(IdleMode.kBrake);
+        wristMotorConfig.idleMode(IdleMode.kBrake);
 
         // bottomMagnetSensor = new
         // DigitalInput(Constants.Climber.bottomMagnetSensorDIO);
         // wristMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
         // wristMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+
+        wristMotor.configure(wristMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     @Override
     public void periodic() {
-        double error = targetPos - wristMotor.getAlternateEncoder(8192).getPosition();
+        double error = targetPos - wristMotor.getEncoder().getPosition();
         error *= 100;
         double kP = 0.04;
 
@@ -59,7 +66,7 @@ public class Wrist extends SubsystemBase {
     }
 
     public void setWristVoltage(double voltage) {
-        wristMotor.getPIDController().setReference(voltage, CANSparkMax.ControlType.kVoltage);
+        wristMotor.getClosedLoopController().setReference(voltage, SparkMax.ControlType.kVoltage);
     }
 
     public void setWristPosition(double position, double arbFFVoltage) {
@@ -83,7 +90,7 @@ public class Wrist extends SubsystemBase {
     }
 
     public double getAbsoluteTicks() {
-        return wristMotor.getAlternateEncoder(8192).getPosition();
+        return wristMotor.getEncoder().getPosition();
         // return
         // wristMotor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle).getPosition();
     }
