@@ -4,20 +4,15 @@
 
 package frc.robot;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.path.GoalEndState;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -35,22 +30,19 @@ import frc.robot.commands.AutoNoteConfirm;
 import frc.robot.commands.AutoPickupNote;
 import frc.robot.commands.TeleopAinterupptor;
 import frc.robot.commands.TeleopArm;
-import frc.robot.commands.TeleopBackInterrupter;
 import frc.robot.commands.TeleopClimber;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.commands.TeleopDriveAutomated;
 import frc.robot.commands.TeleopElevator;
 import frc.robot.commands.TeleopIntake;
-import frc.robot.commands.TeleopStartinterupptor;
 import frc.robot.commands.TeleopWrist;
 import frc.robot.subsystems.Arm;
-// import frc.robot.subsystems.Camera;
-import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Climber.Climber;
 import frc.robot.subsystems.Elevator.Elevator;
 import frc.robot.subsystems.Wrist.Wrist;
+import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.subsystems.drive.Pigeon;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -170,7 +162,7 @@ public class RobotContainer {
     robotPosition.setRobotPose(new Pose2d());
 
     fieldTab.add(robotPosition).withPosition(1, 0).withSize(7, 4);
-    fieldTab.addDouble("NavX yaw", () -> NavX.getYaw());
+    fieldTab.addDouble("NavX yaw", () -> Pigeon.getYaw());
     fieldTab.addDouble("OFFFSET", () -> OI.getDriveOffset());
     subsystemTab.addDouble("Clmber Ticks", () -> climber.getTicks());
     subsystemTab.addDouble("Climber Power", () -> climber.getMotorPower());
@@ -251,15 +243,17 @@ public class RobotContainer {
                                                                                              // Translation2d(1.0,
                                                                                              // 0.0)), new
                                                                                              // Rotation2d());
-        List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
-        PathPlannerPath path = new PathPlannerPath(
-            bezierPoints,
-            new PathConstraints(
-                3.0, 2,
-                Units.degreesToRadians(360), Units.degreesToRadians(540)),
-            new GoalEndState(0.0, new Rotation2d(Units.degreesToRadians(0))));
-        path.preventFlipping = true;
-        new TeleopBackInterrupter().deadlineWith(AutoBuilder.followPath(path)).schedule();
+        // List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos,
+        // endPos);
+        // PathPlannerPath path = new PathPlannerPath(
+        // bezierPoints,
+        // new PathConstraints(
+        // 3.0, 2,
+        // Units.degreesToRadians(360), Units.degreesToRadians(540)),
+        // new GoalEndState(0.0, new Rotation2d(Units.degreesToRadians(0))));
+        // path.preventFlipping = true;
+        // new
+        // TeleopBackInterrupter().deadlineWith(AutoBuilder.followPath(path)).schedule();
       } else {
         Pose2d currentPose = drivetrain.getPose();
         Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d(Math.PI / 2.0));// 10.52, 4.0
@@ -267,15 +261,17 @@ public class RobotContainer {
                                                                                             // Translation2d(1.0,
                                                                                             // 0.0)), new
                                                                                             // Rotation2d());
-        List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
-        PathPlannerPath path = new PathPlannerPath(
-            bezierPoints,
-            new PathConstraints(
-                3.0, 2,
-                Units.degreesToRadians(360), Units.degreesToRadians(540)),
-            new GoalEndState(0.0, new Rotation2d(Units.degreesToRadians(180))));
-        path.preventFlipping = true;
-        new TeleopBackInterrupter().deadlineWith(AutoBuilder.followPath(path)).schedule();
+        // List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos,
+        // endPos);
+        // PathPlannerPath path = new PathPlannerPath(
+        // bezierPoints,
+        // new PathConstraints(
+        // 3.0, 2,
+        // Units.degreesToRadians(360), Units.degreesToRadians(540)),
+        // new GoalEndState(0.0, new Rotation2d(Units.degreesToRadians(180))));
+        // path.preventFlipping = true;
+        // new
+        // TeleopBackInterrupter().deadlineWith(AutoBuilder.followPath(path)).schedule();
       }
     });
     OI.stageLEFTAlign().rising().ifHigh(() -> {
@@ -287,15 +283,17 @@ public class RobotContainer {
                                                                                               // Translation2d(1.0,
                                                                                               // 0.0)), new
                                                                                               // Rotation2d());
-        List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
-        PathPlannerPath path = new PathPlannerPath(
-            bezierPoints,
-            new PathConstraints(
-                3.0, 2,
-                Units.degreesToRadians(360), Units.degreesToRadians(540)),
-            new GoalEndState(0.0, new Rotation2d(Units.degreesToRadians(120.0))));
-        path.preventFlipping = true;
-        new TeleopBumperInterupptor().deadlineWith(AutoBuilder.followPath(path)).schedule();
+        // List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos,
+        // endPos);
+        // PathPlannerPath path = new PathPlannerPath(
+        // bezierPoints,
+        // new PathConstraints(
+        // 3.0, 2,
+        // Units.degreesToRadians(360), Units.degreesToRadians(540)),
+        // new GoalEndState(0.0, new Rotation2d(Units.degreesToRadians(120.0))));
+        // path.preventFlipping = true;
+        // new
+        // TeleopBumperInterupptor().deadlineWith(AutoBuilder.followPath(path)).schedule();
       } else {
         Pose2d currentPose = drivetrain.getPose();
         Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d(Math.PI / 2.0));
@@ -303,15 +301,18 @@ public class RobotContainer {
                                                                                               // Translation2d(1.0,
                                                                                               // 0.0)), new
                                                                                               // Rotation2d());
-        List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
-        PathPlannerPath path = new PathPlannerPath(
-            bezierPoints,
-            new PathConstraints(
-                3.0, 2,
-                Units.degreesToRadians(360), Units.degreesToRadians(540)),
-            new GoalEndState(0.0, new Rotation2d(Units.degreesToRadians(30.0 + 90.0 + 180))));
-        path.preventFlipping = true;
-        new TeleopBumperInterupptor().deadlineWith(AutoBuilder.followPath(path)).schedule();
+        // List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos,
+        // endPos);
+        // PathPlannerPath path = new PathPlannerPath(
+        // bezierPoints,
+        // new PathConstraints(
+        // 3.0, 2,
+        // Units.degreesToRadians(360), Units.degreesToRadians(540)),
+        // new GoalEndState(0.0, new Rotation2d(Units.degreesToRadians(30.0 + 90.0 +
+        // 180))));
+        // path.preventFlipping = true;
+        // new
+        // TeleopBumperInterupptor().deadlineWith(AutoBuilder.followPath(path)).schedule();
       }
     });
     OI.stageRIGHTAlign().rising().ifHigh(() -> {
@@ -323,15 +324,17 @@ public class RobotContainer {
         // Translation2d(1.0,
         // 0.0)), new
         // Rotation2d());
-        List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
-        PathPlannerPath path = new PathPlannerPath(
-            bezierPoints,
-            new PathConstraints(
-                3.0, 2,
-                Units.degreesToRadians(360), Units.degreesToRadians(540)),
-            new GoalEndState(0.0, new Rotation2d(Units.degreesToRadians(60 + 180))));
-        path.preventFlipping = true;
-        new TeleopStartinterupptor().deadlineWith(AutoBuilder.followPath(path)).schedule();
+        // List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos,
+        // endPos);
+        // PathPlannerPath path = new PathPlannerPath(
+        // bezierPoints,
+        // new PathConstraints(
+        // 3.0, 2,
+        // Units.degreesToRadians(360), Units.degreesToRadians(540)),
+        // new GoalEndState(0.0, new Rotation2d(Units.degreesToRadians(60 + 180))));
+        // path.preventFlipping = true;
+        // new
+        // TeleopStartinterupptor().deadlineWith(AutoBuilder.followPath(path)).schedule();
       } else {
         Pose2d currentPose = drivetrain.getPose();
         Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d(Math.PI / 2.0));// 10.52, 4.0
@@ -339,15 +342,17 @@ public class RobotContainer {
                                                                                           // Translation2d(1.0,
                                                                                           // 0.0)), new
                                                                                           // Rotation2d());
-        List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
-        PathPlannerPath path = new PathPlannerPath(
-            bezierPoints,
-            new PathConstraints(
-                3.0, 2,
-                Units.degreesToRadians(360), Units.degreesToRadians(540)),
-            new GoalEndState(0.0, new Rotation2d(Units.degreesToRadians(60))));
-        path.preventFlipping = true;
-        new TeleopStartinterupptor().deadlineWith(AutoBuilder.followPath(path)).schedule();
+        // List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos,
+        // endPos);
+        // PathPlannerPath path = new PathPlannerPath(
+        // bezierPoints,
+        // new PathConstraints(
+        // 3.0, 2,
+        // Units.degreesToRadians(360), Units.degreesToRadians(540)),
+        // new GoalEndState(0.0, new Rotation2d(Units.degreesToRadians(60))));
+        // path.preventFlipping = true;
+        // new
+        // TeleopStartinterupptor().deadlineWith(AutoBuilder.followPath(path)).schedule();
       }
     });
 
@@ -419,18 +424,19 @@ public class RobotContainer {
       // currentPose.getTranslation().plus(new
       // Translation2d(1.0, 0.0)), new Rotation2d());
 
-      List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
-      PathPlannerPath path = new PathPlannerPath(
-          bezierPoints,
-          new PathConstraints(
-              1.0, 1.0,
-              Units.degreesToRadians(360), Units.degreesToRadians(540)),
-          new GoalEndState(0.0, currentPose.getRotation()));
+      // List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos,
+      // endPos);
+      // PathPlannerPath path = new PathPlannerPath(
+      // bezierPoints,
+      // new PathConstraints(
+      // 1.0, 1.0,
+      // Units.degreesToRadians(360), Units.degreesToRadians(540)),
+      // new GoalEndState(0.0, currentPose.getRotation()));
 
-      // Prevent this path from being flipped on the red alliance, since the given
-      // positions are already correct
-      path.preventFlipping = true;
-      AutoBuilder.followPath(path).schedule();
+      // // Prevent this path from being flipped on the red alliance, since the given
+      // // positions are already correct
+      // path.preventFlipping = true;
+      // AutoBuilder.followPath(path).schedule();
     }));
   }
 

@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.event.BooleanEvent;
 import edu.wpi.first.wpilibj.event.EventLoop;
-import frc.robot.subsystems.NavX;
+import frc.robot.subsystems.drive.Pigeon;
 
 public final class OI {
     private static EventLoop eventLoop = new EventLoop();
@@ -23,7 +23,7 @@ public final class OI {
 
     public static void zeroControls() {
         // offset = -NavX.getYaw() - 90;
-        offset = -NavX.getYaw();
+        offset = -Pigeon.getYaw();
     }
 
     public static double getDriveOffset() {
@@ -121,7 +121,7 @@ public final class OI {
     }
 
     public static boolean slowMode() {
-        return primaryController.getLeftBumper() || primaryController.getRightBumper();
+        return primaryController.getLeftBumperButton() || primaryController.getRightBumperButton();
         // return ((primaryController.getLeftTriggerAxis() >= 0.1) ||
         // (primaryController.getRightTriggerAxis() >= 0.1));
     }
@@ -155,7 +155,7 @@ public final class OI {
     }
 
     public static boolean isBumperHeld() {
-        return primaryController.getLeftBumper();
+        return primaryController.getLeftBumperButton();
     }
 
     public static BooleanEvent noteAlign() {

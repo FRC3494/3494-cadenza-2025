@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.drive;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,13 +6,13 @@ import java.util.stream.Stream;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.ctre.phoenix6.swerve.SwerveModule;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
-import com.swervedrivespecialties.swervelib.SwerveModule;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.LimelightHelpers;
 import frc.robot.util.Pose2dHelpers;
 
 public class Drivetrain extends SubsystemBase {
@@ -83,7 +84,7 @@ public class Drivetrain extends SubsystemBase {
       Constants.Drivetrain.BackRightModule.STEER_OFFSET);
   private SwerveModule[] m_modules = new SwerveModule[] { frontRight, frontLeft, backLeft, backRight };
 
-  NavX navX;
+  Pigeon pigeon;
 
   private final SwerveDrivePoseEstimator m_poseEstimator;
   private final SwerveDrivePoseEstimator correctedEstimator;
@@ -416,11 +417,8 @@ public class Drivetrain extends SubsystemBase {
    * @return The current heading of the chassis.
    */
   public Rotation2d getGyroscopeRotation() {
-    if (NavX.getNavX().isMagnetometerCalibrated()) {
-      // We will only get valid fused headings if the magnetometer is calibrated
-      return Rotation2d.fromDegrees(NavX.getYaw());
-    }
-    return Rotation2d.fromDegrees(360.0 - NavX.getYaw());
+    // TODO: might need to change, originally took in NavX magnetometer
+    return Rotation2d.fromDegrees(360.0 - Pigeon.getYaw());
   }
 
   private ChassisSpeeds getRobotRelativeSpeeds() {

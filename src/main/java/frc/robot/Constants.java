@@ -3,8 +3,22 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.RobotBase;
 
 public final class Constants {
+  public static enum Mode {
+    /** Running on a real robot. */
+    REAL,
+
+    /** Running a physics simulator. */
+    SIM,
+
+    /** Replaying from a log file. */
+    REPLAY
+  }
+
+  public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : Mode.SIM;
+
   /**
    * Defines how many seconds until the estimated end of
    * match the final routine should run
