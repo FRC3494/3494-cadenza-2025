@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.subsystems.Drive.Drivetrain;
 
 public class TeleopDriveAutomated extends Command {
     private Timer timer;

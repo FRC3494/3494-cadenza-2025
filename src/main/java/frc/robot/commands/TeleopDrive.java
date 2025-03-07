@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.OI;
-import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.subsystems.Drive.Drivetrain;
 
 public class TeleopDrive extends Command {
     Drivetrain drivetrain;

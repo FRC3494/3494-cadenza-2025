@@ -39,10 +39,10 @@ import frc.robot.commands.TeleopWrist;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Climber.Climber;
+import frc.robot.subsystems.Drive.Drivetrain;
+import frc.robot.subsystems.Drive.Pigeon;
 import frc.robot.subsystems.Elevator.Elevator;
 import frc.robot.subsystems.Wrist.Wrist;
-import frc.robot.subsystems.drive.Drivetrain;
-import frc.robot.subsystems.drive.Pigeon;
 
 /**
  * This class is where the bulk of the robot should be declared. Since

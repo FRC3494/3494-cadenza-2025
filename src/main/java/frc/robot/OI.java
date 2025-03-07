@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.event.BooleanEvent;
 import edu.wpi.first.wpilibj.event.EventLoop;
-import frc.robot.subsystems.drive.Pigeon;
+import frc.robot.subsystems.Drive.Pigeon;
 
 public final class OI {
     private static EventLoop eventLoop = new EventLoop();

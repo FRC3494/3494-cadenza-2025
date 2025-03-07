@@ -1,4 +1,4 @@
-package frc.robot.subsystems.drive;
+package frc.robot.subsystems.Drive;
 
 import org.littletonrobotics.junction.Logger;
 
@@ -9,7 +9,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
-import frc.robot.subsystems.drive.ModuleIO.ModuleIOInputs;
+import frc.robot.subsystems.Drive.ModuleIO.ModuleIOInputs;
 
 public class Module {
   private static final double WHEEL_RADIUS = Units.inchesToMeters(1.6730911186152178); // TODO
